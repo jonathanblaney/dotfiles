@@ -1,44 +1,45 @@
 
 Attempt to sort out and make literate my main emacs config file, which was messy and confusing.
 
-I want to add to do a few more things over time:
-[ ] zsh working reasonably within the emacs shell
-[ ] use-package implementation
-[ ] write some reminders to self, like in my scratch but more elaborate
+I want to add few more things:
+- zsh working reasonably as default Emacs shell
+- use-package implementation
+- write some reminders to self, like in my scratch, of features I keep forgetting
 
 * Table of keyboard shortcuts
 
-| a;    | keyboard-escape-quit)     |                 |
-| b;    | evil-first-non-blank)     |                 |
-| c;    | shell-command)            |                 |
-| cx    | Control-X-prefix)         |                 |
-| d;    | nxml-finish-element       |                 |
-| e;    | evil-end-of-line)         |                 |
-| f;    | find file                 |                 |
-| g;    | swiper                    |                 |
-| j;    | dired-jump)               |                 |
-| jd    | evil-scroll-up)           |                 |
-| kb    | kill-this-buffer)         |                 |
-| kd    | evil-scroll-down)         |                 |
-| mx    | execute-extended-command) |                 |
-| q     | evil delete other windows |                 |
-| r;    | bookmark-jump)            | - which is it?? |
-| r;    | er/expand-region          |                 |
-| s;    | save-buffer               |                 |
-| v;    | dabbrev-expand)           |                 |
-| w;    | other-window              |                 |
-| F10   | unassiagned               |                 |
-| F11   | toggle linewrap           |                 |
-| F5    | regex search/replace      |                 |
-| F6    | M-x                       |                 |
-| F7    | other window              |                 |
-| F8    | toggle neotree            |                 |
-| F9    | go to reverse last change |                 |
-| M-F12 | recent files              |                 |
-|       |                           |                 |
+These are heavily dependent on keychord mode.
+  
+| a;    | keyboard-escape-quit)     |
+| b;    | evil-first-non-blank)     |
+| c;    | shell-command)            |
+| cx    | Control-X-prefix)         |
+| d;    | nxml-finish-element       |
+| e;    | evil-end-of-line)         |
+| f;    | find file                 |
+| g;    | swiper                    |
+| j;    | dired-jump)               |
+| jd    | evil-scroll-up)           |
+| kb    | kill-this-buffer)         |
+| kd    | evil-scroll-down)         |
+| mx    | execute-extended-command) |
+| q     | evil delete other windows |
+| r;    | bookmark-jump)            |
+| s;    | save-buffer               |
+| v;    | dabbrev-expand)           |
+| w;    | other-window              |
+| F10   | unassiagned               |
+| F11   | toggle linewrap           |
+| F5    | regex search/replace      |
+| F6    | M-x                       |
+| F7    | other window              |
+| F8    | toggle neotree            |
+| F9    | go to reverse last change |
+| M-F12 | recent files              |
+|       |                           |
 
 
-Lisp blocks start here.
+/Lisp blocks start here/.
 
 * Packages
 
@@ -70,7 +71,11 @@ Lisp blocks start here.
 	  (add-to-list 'package-archives 			   
 		       '("melpa" . "https://melpa.org/packages/")
 		       'APPEND))				   
+#+end_src
 
+* Appearance
+  
+#+begin_src emacs-lisp
   (load-theme 'solarized-dark' t)
 
   (custom-set-faces
@@ -79,6 +84,31 @@ Lisp blocks start here.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
+  (fset 'yes-or-no-p 'y-or-n-p)
+     ;; turn off scroll bar and menu bar
+    (scroll-bar-mode -1)
+    (menu-bar-mode -1)
+     ;; don't need blinking cursor if use colours 
+    (blink-cursor-mode -1)
+     ;; this might make the jump sentence command in vim/emacs actually work:
+    (setq sentence-end-double-space nil)
+    (setq backup-directory-alist `(("." . "~/.saves")))
+
+     ;; make cursor full width, even of tab; got this from Pragmatic Emacs
+      (setq x-stretch-cursor t)
+
+      ;; highlight current line
+      (setq global-hl-line-mode t)
+
+
+
+#+end_src
+
+* Recent files
+
+#+begin_src emacs-lisp
+
   (require 'recentf)
   (setq recentf-max-saved-items 200
 	recentf-max-menu-items 15)
@@ -89,30 +119,24 @@ Lisp blocks start here.
 * Evil
 #+begin_src emacs-lisp 
 
-     (require 'evil)
-      (evil-mode 1)
-     (setq evil-normal-state-cursor '("orange" box))
-     (setq evil-insert-state-cursor '("green" bar))
-     (setq evil-visual-state-cursor '("pink" box))
-     (setq evil-motion-state-cursor '("blue" box))
-     (setq evil-replace-state-cursor '("yellow" box))
-     (setq evil-operator-state-cursor '("red" box))
+       (require 'evil)
+	(evil-mode 1)
+       (setq evil-normal-state-cursor '("orange" box))
+       (setq evil-insert-state-cursor '("green" bar))
+       (setq evil-visual-state-cursor '("pink" box))
+       (setq evil-motion-state-cursor '("blue" box))
+       (setq evil-replace-state-cursor '("yellow" box))
+       (setq evil-operator-state-cursor '("red" box))
+#+end_src
 
+* Key chord
+
+#+begin_src emacs-lisp
 
     (require 'key-chord)
      (key-chord-mode 1)
      (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-    (fset 'yes-or-no-p 'y-or-n-p)
-     ;; turn off scroll bar and menu bar
-    (scroll-bar-mode -1)
-    (menu-bar-mode -1)
-     ;; don't need blinking cursor if use colours 
-    (blink-cursor-mode -1)
-     ;; this might make the jump sentence command in vim/emacs actually work:
-    (setq sentence-end-double-space nil)
-    (setq backup-directory-alist `(("." . "~/.saves")))
-
-#+end_src
+  #+end_src
 
 * Keyboard shortcuts
 
@@ -121,10 +145,6 @@ Lisp blocks start here.
   ;; rebind f5 to regex replace
   (global-set-key (kbd "<f5>") 'query-replace-regexp)
   (global-set-key (kbd "<f7>") 'other-window)
-
-  ;; rebind F12 to swiper
-  ;; (global-set-key (kbd "<f12>") 'swiper)
-
 
   ;; Disable the annoying backward-one-char behavior of Vim
   ;; Use Emacs behavior instead.
@@ -151,14 +171,18 @@ Lisp blocks start here.
 
   (global-set-key [(f11)] 'toggle-truncate-lines)
   (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
-  ;;smex
+#+end_src
+
+* Smex
+
+#+begin_src emacs-lisp 
   (require 'smex)
   (smex-initialize)
 #+end_src
 
 * Org mode
 
-Lots of this based on Pragmatic Emacs
+  Lots of this based on [[http://pragmaticemacs.com/][Pragmatic Emacs]].
   
 #+begin_src emacs-lisp
     ;; set key for agenda
@@ -188,24 +212,22 @@ Lots of this based on Pragmatic Emacs
     (awk . t)
     (R .t)
     (shell . t)))
+
+  (eval-after-load "org" '(require 'ox-odt nil t))
+
+(setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
+(global-prettify-symbols-mode t) ;; do I definitely want this? 
+(setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
+
   #+end_src
 
 * Dired
 
 #+begin_src emacs-lisp
 
-      ;; make cursor full width, even of tab; got this from Pragmatic Emacs
-      (setq x-stretch-cursor t)
-
-      ;; highlight current line
-      (setq global-hl-line-mode t)
-
-      ;; allow dired-jump to work automatically
+       ;; allow dired-jump to work automatically
       (require 'dired-x)
-      ;; save desktop - not sure I like this; turn it off for now
-      ;; (desktop-save-mode 1)
-      ;; this should allow odt format in Org export:
-      (eval-after-load "org" '(require 'ox-odt nil t))
+
 
       (global-visual-line-mode 1)
 
@@ -222,6 +244,8 @@ Lots of this based on Pragmatic Emacs
       (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 
   (put 'dired-find-alternate-file 'disabled nil)
+  (setq-default dired-listing-switches "-alh")
+
 #+end_src
 
 * Ivy
@@ -271,7 +295,7 @@ Lots of this based on Pragmatic Emacs
 
 * Scratch buffer
 
-#+begin_src 
+#+begin_src emacs-lisp
   (setq initial-major-mode 'org-mode)
   (setq initial-scratch-message "
   Use this for org export
@@ -415,13 +439,12 @@ except I have changed some colours
   ;(key-chord-define-global "r;" 'er/expand-region)
 
   ;; some ideas taken from Supratim Sumanta: github.com/susamn/dotfiles/blob/master/emacs/configuration.org 
+#+end_src
 
-  (setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
-  (global-prettify-symbols-mode t) ;; do I definitely want this? 
-  (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
+* EWW
+functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookmarks.html
 
-
-  ;; functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookmarks.html
+#+begin_src emacs-lisp 
   (defun oht-eww-bookmark-make-record () "Make a bookmark record for the current eww buffer." `(,(plist-get eww-data :title) ((location
   . ,(eww-current-url)) (handler . oht-eww-bookmark-handler) (defaults . (,(plist-get eww-data :title)))))) 
   (defun oht-eww-bookmark-handler (record)
@@ -433,12 +456,8 @@ except I have changed some colours
 	 #'oht-eww-bookmark-make-record))
 
   (add-hook 'eww-mode-hook 'oht-eww-set-bookmark-handler)
-  ;; ideas from Alain Lafon's .emacs
-  ;; show the time
   (display-time-mode t)
 
-  ;; human dired units
-  (setq-default dired-listing-switches "-alh")
 
   ;; disable Evil where it interferes with core functionality
   (mapc (lambda (mode)
