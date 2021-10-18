@@ -1,9 +1,12 @@
+#+STARTUP: overview
+#+TITLE: Emacs config for Linux
 
-Attempt to sort out and make literate my main emacs config file, which was messy and confusing. A superior literate config is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
+Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
 
 I want to add few more things:
 - use-package implementation
 - write some reminders to self, like in my scratch, of features I keep forgetting
+- reset evil goto-last-change, shadowed by Swiper, possibly q; would work
 
 * Table of keyboard shortcuts
 
@@ -108,6 +111,13 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
 	    ("%b - Dir: " default-directory))))) ; Plain buffer
 
 #+end_src
+
+** Bell
+   Do not ring the system bell, but show a visible feedback.
+
+#+BEGIN_SRC emacs-lisp
+(setq visible-bell t)
+#+END_SRC
 
 * Recent files
 
@@ -311,14 +321,11 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
   In Evil =ctrl-o= and =ctrl-i= jump back and forward between previous positions, cross-buffer. Can turn the latter off with
   =evil-jumps-cross-buffers nil= but actually it's a bit like switch buffer so could be handy
   In evil =g i= opens insert mode where insert mode was last used
+I should learn how to set this to something else;q
   =mx evil-ex-show-digraphs= shows the main chars and insert sequence
   Jump to percent through buffer by typing, eg, =50%=
   To indent lines nn to nn do =:nn,nn>= (very useful for Python)
   ----------------
-  r; expand region
-  F7 other window
-
-  cal-grab-region then u+ or u* to sum/product
 
   `1234567890-=
   ¬!''£$%^&*()_+
@@ -327,8 +334,6 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
   \zxcvbnm,./
   |ZXCVBNM>?
   ")
-
-
 #+end_src
 
 * Dired 
