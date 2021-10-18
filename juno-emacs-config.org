@@ -2,7 +2,6 @@
 Attempt to sort out and make literate my main emacs config file, which was messy and confusing. A superior literate config is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
 
 I want to add few more things:
-- zsh working reasonably as default Emacs shell
 - use-package implementation
 - write some reminders to self, like in my scratch, of features I keep forgetting
 
@@ -74,32 +73,39 @@ These are heavily dependent on keychord mode.
 * Appearance
   
 #+begin_src emacs-lisp
-  (load-theme 'solarized-dark' t)
+    (load-theme 'solarized-dark' t)
 
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
-  (fset 'yes-or-no-p 'y-or-n-p)
-     ;; turn off scroll bar and menu bar
-    (scroll-bar-mode -1)
-    (menu-bar-mode -1)
-     ;; don't need blinking cursor if use colours 
-    (blink-cursor-mode -1)
-     ;; this might make the jump sentence command in vim/emacs actually work:
-    (setq sentence-end-double-space nil)
-    (setq backup-directory-alist `(("." . "~/.saves")))
+    (fset 'yes-or-no-p 'y-or-n-p)
+       ;; turn off scroll bar and menu bar
+      (scroll-bar-mode -1)
+      (menu-bar-mode -1)
+       ;; don't need blinking cursor if use colours 
+      (blink-cursor-mode -1)
+       ;; this might make the jump sentence command in vim/emacs actually work:
+      (setq sentence-end-double-space nil)
+      (setq backup-directory-alist `(("." . "~/.saves")))
 
-     ;; make cursor full width, even of tab; got this from Pragmatic Emacs
-      (setq x-stretch-cursor t)
+       ;; make cursor full width, even of tab; got this from Pragmatic Emacs
+	(setq x-stretch-cursor t)
 
-      ;; highlight current line
-      (setq global-hl-line-mode t)
-
-
+	;; highlight current line
+	(setq global-hl-line-mode t)
+#+end_src
+** Show full path in title bar
+Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-path-to-file-in-the-emacs-mode-line][a Stack Overflow answer]].
+#+begin_src emacs-lisp
+  (setq frame-title-format
+	'(buffer-file-name "%b - %f" ; File buffer
+	  (dired-directory dired-directory ; Dired buffer
+	   (revert-buffer-function "%b" ; Buffer Menu
+	    ("%b - Dir: " default-directory))))) ; Plain buffer
 
 #+end_src
 
@@ -208,6 +214,7 @@ These are heavily dependent on keychord mode.
       (python . t)
       (org . t)
       (awk . t)
+      (sql . t)
       (R .t)
       (shell . t)))
 
