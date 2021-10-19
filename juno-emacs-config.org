@@ -6,7 +6,7 @@ Attempt to sort out and make literate my main emacs config file, which was previ
 I want to add few more things:
 - use-package implementation
 - write some reminders to self, like in my scratch, of features I keep forgetting
-- reset evil goto-last-change, shadowed by Swiper, possibly q; would work
+- start fully maximised 
 
 * Table of keyboard shortcuts
 
@@ -26,6 +26,7 @@ These are heavily dependent on keychord mode.
 | kd    | evil-scroll-down)         |
 | mx    | execute-extended-command) |
 | q     | evil delete other windows |
+| q;    | go to last edit point     |
 | r;    | bookmark-jump)            |
 | s;    | save-buffer               |
 | v;    | dabbrev-expand)           |
@@ -62,9 +63,6 @@ These are heavily dependent on keychord mode.
      '(swiper rainbow-mode pdf-tools js2-mode web-mode beacon ag elfeed helpful dired-narrow cider expand-region eww-lnum dired-rainbow idle-highlight-mode avy htmlize evil-collection which-key neotree w3m counsel peep-dired ox-pandoc auctex volatile-highlights solarized-theme smex markdown-mode magit key-chord evil define-word ace-jump-mode))
    '(tool-bar-mode nil))
   (setq suggest-key-bindings t)
-  ;;disabling global because it breaks pdf tools for some reason:
-  ;;(global-linum-mode t)
-
   (when (> emacs-major-version 23)				   
 	  (require 'package)					   
 	  (package-initialize)					   
@@ -94,13 +92,19 @@ These are heavily dependent on keychord mode.
        ;; this might make the jump sentence command in vim/emacs actually work:
       (setq sentence-end-double-space nil)
       (setq backup-directory-alist `(("." . "~/.saves")))
-
-       ;; make cursor full width, even of tab; got this from Pragmatic Emacs
-	(setq x-stretch-cursor t)
-
-	;; highlight current line
-	(setq global-hl-line-mode t)
 #+end_src
+
+** Full-width cursor
+From a suggestion at Pragmatic Emacs
+#+begin_src emacs-lisp
+(setq x-stretch-cursor t)
+#+end_src
+
+** Highlight current line
+#+begin_src emacs-lisp 
+(setq global-hl-line-mode t)
+#+end_src
+
 ** Show full path in title bar
 Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-path-to-file-in-the-emacs-mode-line][a Stack Overflow answer]].
 #+begin_src emacs-lisp
@@ -119,6 +123,19 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
 (setq visible-bell t)
 #+END_SRC
 
+** Line number
+Disable global line numbering because it breaks pdf tools for some reason:
+ 
+   #+begin_src emacs-lisp
+;;(global-linum-mode t)
+
+   #+end_src
+** Time display in modeline
+Suggested by Alain Lafon's config.
+#+begin_src emacs-lisp 
+(display-time-mode t)
+#+end_src
+   
 * Recent files
 
 #+begin_src emacs-lisp
@@ -156,31 +173,32 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
 
 #+begin_src emacs-lisp
 
-    ;; Disable the annoying backward-one-char behavior of Vim
-  ;; Use Emacs behavior instead.
-  (setq evil-move-cursor-back nil)
-  (key-chord-define-global "f;" 'find-file)
-  (key-chord-define-global "jd" 'evil-scroll-up)       
-  (key-chord-define-global "kd" 'evil-scroll-down)               
-  (key-chord-define-global "mx" 'smex)
-  (key-chord-define-global "cx" 'Control-X-prefix)               
-  (key-chord-define-global "sb" 'ivy-switch-buffer) 
-  (key-chord-define-global "a;" 'keyboard-escape-quit)
-  (key-chord-define-global "kb" 'kill-this-buffer)	   
-  (key-chord-define-global "s;" 'save-buffer)
-  (key-chord-define-global "g;" 'swiper)
-  (key-chord-define-global "e;" 'evil-end-of-line)
-  (key-chord-define-global "b;" 'evil-first-non-blank)
-  (key-chord-define-global "v;" 'dabbrev-expand)
-  (key-chord-define-global "w;" 'other-window)
-  (key-chord-define-global "j;" 'dired-jump)
-  (key-chord-define-global "c;" 'shell-command)
-  (key-chord-define-global "r;" 'bookmark-jump)    
-  (key-chord-define-global "z;" 'er/expand-region)
-(global-set-key (kbd "<f5>") 'query-replace-regexp)
-  (global-set-key (kbd "<f7>") 'other-window)
-  (global-set-key [(f11)] 'toggle-truncate-lines)
-  (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
+      ;; Disable the annoying backward-one-char behavior of Vim
+    ;; Use Emacs behavior instead.
+    (setq evil-move-cursor-back nil)
+    (key-chord-define-global "f;" 'find-file)
+    (key-chord-define-global "jd" 'evil-scroll-up)       
+    (key-chord-define-global "kd" 'evil-scroll-down)               
+    (key-chord-define-global "mx" 'smex)
+    (key-chord-define-global "cx" 'Control-X-prefix)               
+    (key-chord-define-global "sb" 'ivy-switch-buffer) 
+    (key-chord-define-global "a;" 'keyboard-escape-quit)
+    (key-chord-define-global "kb" 'kill-this-buffer)	   
+    (key-chord-define-global "s;" 'save-buffer)
+    (key-chord-define-global "g;" 'swiper)
+    (key-chord-define-global "e;" 'evil-end-of-line)
+    (key-chord-define-global "b;" 'evil-first-non-blank)
+    (key-chord-define-global "v;" 'dabbrev-expand)
+    (key-chord-define-global "w;" 'other-window)
+    (key-chord-define-global "j;" 'dired-jump)
+    (key-chord-define-global "c;" 'shell-command)
+    (key-chord-define-global "r;" 'bookmark-jump)    
+    (key-chord-define-global "z;" 'er/expand-region)
+    (key-chord-define-global "q;" 'goto-last-change)
+    (global-set-key (kbd "<f5>") 'query-replace-regexp)
+    (global-set-key (kbd "<f7>") 'other-window)
+    (global-set-key [(f11)] 'toggle-truncate-lines)
+    (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
 #+end_src
 
 * Smex
@@ -451,7 +469,6 @@ functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookm
 	 #'oht-eww-bookmark-make-record))
 
   (add-hook 'eww-mode-hook 'oht-eww-set-bookmark-handler)
-  (display-time-mode t)
 
 
   ;; disable Evil where it interferes with core functionality
