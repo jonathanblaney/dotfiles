@@ -1,0 +1,30 @@
+" General Settings
+set configversion 2.0
+set homepage ["file:///home/jon/homepage.html", "file:///home/jon/homepage.html", "file:///home/jon/homepage.html", "file:///home/jon/homepage.html"]
+set home true
+set homepages.0 file:///home/jon/homepage.html
+set homepages.1 file:///home/jon/homepage.html
+set theme dark
+
+" Binds
+bind gnl tabopen https://londonlibrary.primo.exlibrisgroup.com/discovery/search?vid=44LON_INST:Book_Only
+bind gol open https://londonlibrary.primo.exlibrisgroup.com/discovery/search?vid=44LON_INST:Book_Only
+bind gwl winopen https://londonlibrary.primo.exlibrisgroup.com/discovery/search?vid=44LON_INST:Book_Only
+bind gnh tabopen file:///home/jon/homepage.html
+bind gwh winopen file:///home/jon/homepage.html
+bind gnw tabopen https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07#?date=2021-10-19
+bind gow open https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07#?date=2021-10-19
+bind gww winopen https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07#?date=2021-10-19
+bind gnf tabopen https://www.theguardian.com/football
+bind gof open https://www.theguardian.com/football
+bind gwf winopen https://www.theguardian.com/football
+bind gnt tabopen https://traintimes.org.uk/
+bind gwt winopen https://traintimes.org.uk/
+
+" Autocmds
+autocmd DocStart https://www.fastmail.com mode ignore
+autocmd DocLoad ^https://github.com/tridactyl/tridactyl/issues/new$ issue
+autocmd TriStart .* source_quiet
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
