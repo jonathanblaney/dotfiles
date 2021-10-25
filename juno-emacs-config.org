@@ -1,13 +1,14 @@
 #+STARTUP: overview
 #+TITLE: Emacs config for Linux
 
-Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
+Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config, which inspired this one, is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
 
 I want to add few more things:
 - use-package implementation
 - write some reminders to self, like in my scratch, of features I keep forgetting
-- start fully maximised 
-
+- start fully maximised, although emacs -mm from cli works OK
+- fix the backward space on Evil paste
+  
 * Table of keyboard shortcuts
 
 These are heavily dependent on keychord mode.
@@ -19,6 +20,7 @@ These are heavily dependent on keychord mode.
 | d;    | nxml-finish-element       |
 | e;    | evil-end-of-line)         |
 | f;    | find file                 |
+| f     | avy-goto-char-timer       |
 | g;    | swiper                    |
 | j;    | dired-jump)               |
 | jd    | evil-scroll-up)           |
@@ -74,26 +76,35 @@ These are heavily dependent on keychord mode.
 * Appearance
   
 #+begin_src emacs-lisp
-    (load-theme 'solarized-dark' t)
+  (load-theme 'solarized-dark' t)
 
-    (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
-     '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
-
-    (fset 'yes-or-no-p 'y-or-n-p)
-       ;; turn off scroll bar and menu bar
-      (scroll-bar-mode -1)
-      (menu-bar-mode -1)
-       ;; don't need blinking cursor if use colours 
-      (blink-cursor-mode -1)
-       ;; this might make the jump sentence command in vim/emacs actually work:
-      (setq sentence-end-double-space nil)
-      (setq backup-directory-alist `(("." . "~/.saves")))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 #+end_src
 
+** Enter 'y' or 'n'
+Default behaviour is to type 'yes' or 'no'
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+** Turn off scroll bar 
+#+begin_src emacs-lisp
+    (scroll-bar-mode -1)
+#+end_src
+** Turn off menu bar
+This can be useful sometimes. Turn it on with meta-x menu-bar-mode.
+#+begin_src emacs-lisp
+    (menu-bar-mode -1)
+#+end_src
+
+** Turn off blinking cursor
+#+begin_src emacs-lisp
+    (blink-cursor-mode -1)
+#+end_src
 ** Full-width cursor
 From a suggestion at Pragmatic Emacs
 #+begin_src emacs-lisp
@@ -136,7 +147,7 @@ Suggested by Alain Lafon's config.
 (display-time-mode t)
 #+end_src
    
-* Recent files
+* Recent files and backups
 
 #+begin_src emacs-lisp
 
@@ -146,6 +157,12 @@ Suggested by Alain Lafon's config.
   (recentf-mode)
   (global-set-key [(meta f12)] 'recentf-open-files)
 #+end_src
+
+** Set backup directory
+#+begin_src emacs-lisp
+    (setq backup-directory-alist `(("." . "~/.saves")))
+#+end_src
+
 
 * Evil
 #+begin_src emacs-lisp 
@@ -160,6 +177,11 @@ Suggested by Alain Lafon's config.
        (setq evil-operator-state-cursor '("red" box))
 #+end_src
 
+** Evil jump sentence
+#+begin_src emacs-lisp
+    (setq sentence-end-double-space nil)
+#+end_src
+
 * Key chord
 
 #+begin_src emacs-lisp
@@ -170,37 +192,39 @@ Suggested by Alain Lafon's config.
   #+end_src
 
 * Set keyboard shortcuts
-
+** Global keys
 #+begin_src emacs-lisp
-
-      ;; Disable the annoying backward-one-char behavior of Vim
-    ;; Use Emacs behavior instead.
-    (setq evil-move-cursor-back nil)
-    (key-chord-define-global "f;" 'find-file)
-    (key-chord-define-global "jd" 'evil-scroll-up)       
-    (key-chord-define-global "kd" 'evil-scroll-down)               
-    (key-chord-define-global "mx" 'smex)
-    (key-chord-define-global "cx" 'Control-X-prefix)               
-    (key-chord-define-global "sb" 'ivy-switch-buffer) 
-    (key-chord-define-global "a;" 'keyboard-escape-quit)
-    (key-chord-define-global "kb" 'kill-this-buffer)	   
-    (key-chord-define-global "s;" 'save-buffer)
-    (key-chord-define-global "g;" 'swiper)
-    (key-chord-define-global "e;" 'evil-end-of-line)
-    (key-chord-define-global "b;" 'evil-first-non-blank)
-    (key-chord-define-global "v;" 'dabbrev-expand)
-    (key-chord-define-global "w;" 'other-window)
-    (key-chord-define-global "j;" 'dired-jump)
-    (key-chord-define-global "c;" 'shell-command)
-    (key-chord-define-global "r;" 'bookmark-jump)    
-    (key-chord-define-global "z;" 'er/expand-region)
-    (key-chord-define-global "q;" 'goto-last-change)
-    (global-set-key (kbd "<f5>") 'query-replace-regexp)
-    (global-set-key (kbd "<f7>") 'other-window)
-    (global-set-key [(f11)] 'toggle-truncate-lines)
-    (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
+  (key-chord-define-global "f;" 'find-file)
+  (key-chord-define-global "jd" 'evil-scroll-up)       
+  (key-chord-define-global "kd" 'evil-scroll-down)               
+  (key-chord-define-global "mx" 'smex)
+  (key-chord-define-global "cx" 'Control-X-prefix)               
+  (key-chord-define-global "sb" 'ivy-switch-buffer) 
+  (key-chord-define-global "a;" 'keyboard-escape-quit)
+  (key-chord-define-global "kb" 'kill-this-buffer)	   
+  (key-chord-define-global "s;" 'save-buffer)
+  (key-chord-define-global "g;" 'swiper)
+  (key-chord-define-global "e;" 'evil-end-of-line)
+  (key-chord-define-global "b;" 'evil-first-non-blank)
+  (key-chord-define-global "v;" 'dabbrev-expand)
+  (key-chord-define-global "w;" 'other-window)
+  (key-chord-define-global "j;" 'dired-jump)
+  (key-chord-define-global "c;" 'shell-command)
+  (key-chord-define-global "r;" 'bookmark-jump)    
+  (key-chord-define-global "z;" 'er/expand-region)
+  (key-chord-define-global "q;" 'goto-last-change)
+  (global-set-key (kbd "<f5>") 'query-replace-regexp)
+  (global-set-key (kbd "<f7>") 'other-window)
+  (global-set-key [(f11)] 'toggle-truncate-lines)
+  (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
 #+end_src
+** Evil normal mode
+#+begin_src emacs-lisp 
+  ;; Disable the backward-one-char behavior of Vim
+  (setq evil-move-cursor-back nil)
+  (define-key evil-normal-state-map "f" 'avy-goto-char-timer)
 
+#+end_src
 * Smex
 
 #+begin_src emacs-lisp 
