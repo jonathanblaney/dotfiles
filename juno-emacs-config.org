@@ -137,16 +137,76 @@ Snippet taken from  [[https://stackoverflow.com/questions/29816326/how-to-show-p
 ** Line number
 Disable global line numbering because it breaks pdf tools for some reason:
  
-   #+begin_src emacs-lisp
+#+begin_src emacs-lisp
 ;;(global-linum-mode t)
 
-   #+end_src
+#+end_src
 ** Time display in modeline
 Suggested by Alain Lafon's config.
 #+begin_src emacs-lisp 
 (display-time-mode t)
 #+end_src
    
+* Org mode
+
+  Lots of this based on suggestions from [[http://pragmaticemacs.com/][Pragmatic Emacs]].
+
+** Set agenda files
+   
+#+begin_src emacs-lisp
+      (custom-set-variables
+	'(org-agenda-files (list
+          "/home/jon/repos/london/todo.org"
+          "~/repos/london/notes-to-self.org"
+          "~/repos/london/tech.org"
+          "~/repos/london/readingnotes.org")))
+
+#+end_src
+
+
+#+begin_src emacs-lisp
+      ;; set key for agenda
+      (global-set-key (kbd "C-c a") 'org-agenda)
+
+      ;; open agenda in current window
+      (setq org-agenda-window-setup (quote current-window))
+
+      ;; capture todo items with C-c c t
+      (define-key global-map (kbd "C-c c") 'org-capture)
+      (setq org-capture-templates
+	    '(("d" "to do" entry (file+headline "/home/jon/repos/london/todo.org" "Tasks for home") "* TODO [#A] ")
+	    ("b" "BIFMO" entry (file+headline "/home/jon/repos/london/todo.org" "BIFMO") "* TODO [#A] ")
+	      ("a" "home appointment" entry (file+headline "/home/jon/repos/london/todo.org" "appointments") "* Appt: ")
+	      ("s" "notes-to-self" entry (file+headline "/home/jon/repos/london/notes-to-self.org" "Notes to self") "* NOTE ")
+	      ("t" "tech heading" entry (file+headline "/home/jon/repos/london/tech.org" "Noted") "* NOTE ")
+	      ("o" "tech no heading" plain (file+headline "/home/jon/repos/london/tech.org" "Miscellaneous") " "); see if this works
+	      ("p" "shopping" entry (file+headline "/home/jon/repos/london/todo.org" "shopping") "** BUY: ")
+	      ("g" "general for refilng" entry (file+headline "/home/jon/repos/london/notes-to-self.org" "Notes to self") "*** refile ")
+	      ("r" "reading notes" entry (file+headline "/home/jon/repos/london/readingnotes.org" "reading notes") "* AUTHOR: ")))
+
+    (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+      (python . t)
+      (org . t)
+      (awk . t)
+      (sql . t)
+      (R .t)
+      (shell . t)))
+
+    (eval-after-load "org" '(require 'ox-odt nil t))
+
+  (setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
+  (global-prettify-symbols-mode t) ;; do I definitely want this? 
+  (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
+
+#+end_src
+** Hide empty lines between sub-headers in collapsed view
+   Borrowed from Alain Lafon
+#+begin_src emacs-lisp
+(setq org-cycle-separator-lines 0)
+#+end_src
+
 * Recent files and backups
 
 #+begin_src emacs-lisp
@@ -231,52 +291,6 @@ Suggested by Alain Lafon's config.
   (require 'smex)
   (smex-initialize)
 #+end_src
-
-* Org mode
-
-  Lots of this based on suggestions from [[http://pragmaticemacs.com/][Pragmatic Emacs]].
-  
-#+begin_src emacs-lisp
-
-   '(org-agenda-files
-     '("~/repos/london/todo.org" "~/repos/london/notes-to-self.org" "~/repos/london/tech.org" "~/repos/london/readingnotes.org"))
-
-      ;; set key for agenda
-      (global-set-key (kbd "C-c a") 'org-agenda)
-
-      ;; open agenda in current window
-      (setq org-agenda-window-setup (quote current-window))
-
-      ;; capture todo items with C-c c t
-      (define-key global-map (kbd "C-c c") 'org-capture)
-      (setq org-capture-templates
-	    '(("d" "to do" entry (file+headline "/home/jon/repos/london/todo.org" "Tasks for home") "* TODO [#A] ")
-	    ("b" "BIFMO" entry (file+headline "/home/jon/repos/london/todo.org" "BIFMO") "* TODO [#A] ")
-	      ("a" "home appointment" entry (file+headline "/home/jon/repos/london/todo.org" "appointments") "* Appt: ")
-	      ("s" "notes-to-self" entry (file+headline "/home/jon/repos/london/notes-to-self.org" "Notes to self") "* NOTE ")
-	      ("t" "tech heading" entry (file+headline "/home/jon/repos/london/tech.org" "Noted") "* NOTE ")
-	      ("o" "tech no heading" plain (file+headline "/home/jon/repos/london/tech.org" "Miscellaneous") " "); see if this works
-	      ("p" "shopping" entry (file+headline "/home/jon/repos/london/todo.org" "shopping") "** BUY: ")
-	      ("g" "general for refilng" entry (file+headline "/home/jon/repos/london/notes-to-self.org" "Notes to self") "*** refile ")
-	      ("r" "reading notes" entry (file+headline "/home/jon/repos/london/readingnotes.org" "reading notes") "* AUTHOR: ")))
-
-    (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((emacs-lisp . t)
-      (python . t)
-      (org . t)
-      (awk . t)
-      (sql . t)
-      (R .t)
-      (shell . t)))
-
-    (eval-after-load "org" '(require 'ox-odt nil t))
-
-  (setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
-  (global-prettify-symbols-mode t) ;; do I definitely want this? 
-  (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
-
-  #+end_src
 
 * Dired
 
@@ -463,7 +477,7 @@ except I have changed some colours
 #+END_SRC
 
 * Elfeed
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (load "~/.emacs.d/elfeed-feeds.el")
 
   (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
@@ -501,7 +515,12 @@ functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookm
 #+end_src
 
 * LaTeX
-  
+Macro to insert the LaTeX export tweaks below from Org files:
+#+begin_src emacs-lisp
+(fset 'latex-jb
+   (kmacro-lambda-form [?g ?g ?O ?# ?+ ?L ?a ?T ?e ?X ?+ backspace ?_ ?C ?L ?A ?S ?S ?: ?  ?j ?b return ?# ?+ ?O ?P ?T ?I ?O ?N ?S ?: ?  ?t ?o ?c ?: ?n ?i ?l] 0 "%d"))
+
+#+end_src
 Set org latex export tweaks:
 - colors links dark blue (and removes box)
 - suppresses numbering on sections?

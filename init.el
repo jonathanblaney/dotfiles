@@ -1,7 +1,7 @@
-;; this file links to the actual config held in:
+;; this file links to the full config held in:
 ;; juno-emacs-config.org
-;; note that this will not work if the linked file is invalid
-;; which happened to me when a bit of literal org syntax meant for my scratch file confused the parsing
+;; note that this will not work if the linked file has invalid org syntax
+;; but the error message may say that such a file cannot be found
 
 (require 'org)
 (org-babel-load-file
