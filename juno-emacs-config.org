@@ -7,7 +7,6 @@ I want to add few more things:
 - use-package implementation
 - write some reminders to self, like in my scratch, of features I keep forgetting
 - start fully maximised, although emacs -mm from cli works OK
-- fix the backward space on Evil paste
   
 * Table of keyboard shortcuts
 
@@ -225,8 +224,8 @@ Suggested by Alain Lafon's config.
 
 
 * Evil
+** Cursor appearance per state
 #+begin_src emacs-lisp 
-
        (require 'evil)
 	(evil-mode 1)
        (setq evil-normal-state-cursor '("orange" box))
@@ -235,13 +234,21 @@ Suggested by Alain Lafon's config.
        (setq evil-motion-state-cursor '("blue" box))
        (setq evil-replace-state-cursor '("yellow" box))
        (setq evil-operator-state-cursor '("red" box))
+       (define-key evil-normal-state-map "f" 'avy-goto-char-timer)
+       
 #+end_src
-
+** Cursor behaviour
+Useful discussion here: https://www.dr-qubit.org/Evil_cursor_model.html   
+However note that for me p pastes after the cursor and P before.
+   #+begin_src emacs-lisp
+(setq evil-move-cursor-back nil)
+(setq evil-move-beyond-eol t)
+(setq evil-highlight-closing-paren-at-point-states nil)
+   #+end_src
 ** Evil jump sentence
 #+begin_src emacs-lisp
     (setq sentence-end-double-space nil)
 #+end_src
-
 * Key chord
 
 #+begin_src emacs-lisp
@@ -250,7 +257,6 @@ Suggested by Alain Lafon's config.
      (key-chord-mode 1)
      (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   #+end_src
-
 * Set keyboard shortcuts
 ** Global keys
 #+begin_src emacs-lisp
@@ -277,13 +283,6 @@ Suggested by Alain Lafon's config.
   (global-set-key (kbd "<f7>") 'other-window)
   (global-set-key [(f11)] 'toggle-truncate-lines)
   (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
-#+end_src
-** Evil normal mode
-#+begin_src emacs-lisp 
-  ;; Disable the backward-one-char behavior of Vim
-  (setq evil-move-cursor-back nil)
-  (define-key evil-normal-state-map "f" 'avy-goto-char-timer)
-
 #+end_src
 * Smex
 
