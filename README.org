@@ -1,5 +1,6 @@
-My dot files for a few favourite programs, mostly pretty minimal because I tend to stick with the defaults:
+My dot files for a few favourite programs. Apart from Emacs, these are mostly pretty minimal because I tend to stick with the defaults:
 
 - Emacs
 - MPV
+- SQLite
 - Neovim
