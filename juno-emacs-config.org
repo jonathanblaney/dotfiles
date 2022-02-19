@@ -4,7 +4,7 @@
 Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config, which inspired this one, is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
 
 I want to add few more things:
-- use-package implementation
+- use-package implementation, maybe
 - write some reminders to self, like in my scratch, of features I keep forgetting
 - start fully maximised, although emacs -mm from cli works OK
   
@@ -153,12 +153,13 @@ Suggested by Alain Lafon's config.
 ** Set agenda files
    
 #+begin_src emacs-lisp
-      (custom-set-variables
-	'(org-agenda-files (list
-          "/home/jon/repos/london/todo.org"
-          "~/repos/london/notes-to-self.org"
-          "~/repos/london/tech.org"
-          "~/repos/london/readingnotes.org")))
+  (custom-set-variables
+    '(org-agenda-files (list
+      "/home/jon/repos/london/todo.org"
+      "~/repos/london/notes-to-self.org"
+      "~/repos/london/tech.org"
+      "~/repos/london/contacts.org"
+      "~/repos/london/readingnotes.org")))
 
 #+end_src
 
