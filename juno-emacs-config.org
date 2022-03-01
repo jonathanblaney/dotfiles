@@ -382,14 +382,6 @@ I should learn how to set this to something else;q
   Jump to percent through buffer by typing, eg, =50%=
   To indent lines nn to nn do =:nn,nn>= (very useful for Python)
   ----------------
-
-  `1234567890-=
-  ¬!''£$%^&*()_+
-  asdfghjkl;'#
-  ASDFGHJKL:@~
-  \zxcvbnm,./
-  |ZXCVBNM>?
-  ")
 #+end_src
 
 * Dired 
