@@ -201,13 +201,22 @@ Suggested by Alain Lafon's config.
   (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
 
 #+end_src
-** Hide empty lines between sub-headers in collapsed view
+** Behaviour in collapsed view
    Borrowed from Alain Lafon
 #+begin_src emacs-lisp
 (setq org-cycle-separator-lines 0)
 #+end_src
 
-* Recent files and backups
+Tab stopped working to expand in normal mode. Tried to explicitly bind it:
+#+begin_src emacs-lisp
+;;  (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+;; this gives me an error, although not sure why
+#+end_src
+
++begin_src emacs-lisp
+(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+#+end_src
+* Recent files and backup
 
 #+begin_src emacs-lisp
 
@@ -225,6 +234,12 @@ Suggested by Alain Lafon's config.
 
 
 * Evil
+** Broken tab fix
+Tab will no longer expand collapsed headings in normal mode.
+#+begin_src emacs-lisp 
+(setq evil-want-C-i-jump nil)
+#+end_src
+
 ** Cursor appearance per state
 #+begin_src emacs-lisp 
        (require 'evil)
@@ -381,7 +396,7 @@ I should learn how to set this to something else;q
   =mx evil-ex-show-digraphs= shows the main chars and insert sequence
   Jump to percent through buffer by typing, eg, =50%=
   To indent lines nn to nn do =:nn,nn>= (very useful for Python)
-  ----------------
+  ----------------")
 #+end_src
 
 * Dired 
