@@ -2,12 +2,6 @@
 #+TITLE: Emacs config for Linux
 
 Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config, which inspired this one, is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
-
-I want to add few more things:
-- use-package implementation, maybe
-- write some reminders to self, like in my scratch, of features I keep forgetting
-- start fully maximised, although emacs -mm from cli works OK
-  
 * Table of keyboard shortcuts
 
 These are heavily dependent on keychord mode.
@@ -202,20 +196,15 @@ Suggested by Alain Lafon's config.
 
 #+end_src
 ** Behaviour in collapsed view
-   Borrowed from Alain Lafon
 #+begin_src emacs-lisp
 (setq org-cycle-separator-lines 0)
 #+end_src
+** Org refile
 
-Tab stopped working to expand in normal mode. Tried to explicitly bind it:
+From Sacha Chua:  https://sachachua.com/blog/2015/02/learn-take-notes-efficiently-org-mode/#unnumbered-3
 #+begin_src emacs-lisp
-;;  (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-;; this gives me an error, although not sure why
-#+end_src
-
-+begin_src emacs-lisp
-(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
-#+end_src
+  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+#+END_SRC
 * Recent files and backup
 
 #+begin_src emacs-lisp
@@ -235,7 +224,7 @@ Tab stopped working to expand in normal mode. Tried to explicitly bind it:
 
 * Evil
 ** Broken tab fix
-Tab will no longer expand collapsed headings in normal mode.
+Tab conflict between Org and Evil. The following must be set before ~(require 'evil)~
 #+begin_src emacs-lisp 
 (setq evil-want-C-i-jump nil)
 #+end_src
@@ -346,39 +335,6 @@ However note that for me p pastes after the cursor and P before.
       (setq ivy-display-style 'fancy)
 #+end_src
 
-* Neotree
-
-#+begin_src emacs-lisp
-  (require 'neotree)
-  (setq neo-smart-open t);; opens at the current file
-  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-  (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-  (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
-  (global-set-key (kbd "<f8>") 'neotree-toggle)
-
-  ;; not very big files don't warn that they're big
-  (setq large-file-warning-threshold 100000000);; I think this is 100 MB..
-
-  ;; allow emacsclient
-  ;;(server-start) 
-
-  ;; which-key
-  ;; default behaviour is window at bottom
-  ;; can also be minibuffer or side windows; see the Github repo:
-  ;; https://github.com/justbur/emacs-which-key
-  (add-to-list 'load-path "path/to/which-key.el")
-  (require 'which-key)
-  (which-key-mode)
-
-  (key-chord-define-global "d;" 'nxml-finish-element)
-#+end_src
-
 * Scratch buffer
 
 #+begin_src emacs-lisp
@@ -414,39 +370,34 @@ except I have changed some colours
 
 #+begin_src emacs-lisp
 
-  (require 'dired-rainbow)
-  (dired-rainbow-define-chmod directory "#da7f00" "d.*")
-  (dired-rainbow-define html "#ffed4a" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-  (dired-rainbow-define org "#d787d7" ("org"))
-  (dired-rainbow-define xml "#5f5fff" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-  (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-  (dired-rainbow-define markdown "#5f87ff" ("etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile"))
-  (dired-rainbow-define text "#5fafff" ("txt"))
-  (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc" "tsv"))
-  (dired-rainbow-define media "#d700af" ("mp3" "mp4" "MP3" "mkv" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "webm"))
-  (dired-rainbow-define image "#afafd7" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-  (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
-  (dired-rainbow-define interpreted "#ff005f" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-   (dired-rainbow-define compiled "#ff5f87" ("asm" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-   (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-   (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-   (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-   (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-   (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-   (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-   (dired-rainbow-define vc "#5fff00" ("git" "gitignore" "gitattributes" "gitmodules"))
-   (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+    (require 'dired-rainbow)
+    (dired-rainbow-define-chmod directory "#da7f00" "d.*")
+    (dired-rainbow-define html "#ffed4a" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+    (dired-rainbow-define org "#d787d7" ("org"))
+    (dired-rainbow-define xml "#5f5fff" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+    (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+    (dired-rainbow-define markdown "#5f87ff" ("etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile"))
+    (dired-rainbow-define text "#5fafff" ("txt"))
+    (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc" "tsv"))
+    (dired-rainbow-define media "#d700af" ("mp3" "mp4" "MP3" "mkv" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "webm"))
+    (dired-rainbow-define image "#afafd7" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+    (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+    (dired-rainbow-define interpreted "#ff005f" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+     (dired-rainbow-define compiled "#ff5f87" ("asm" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+     (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+     (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+     (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+     (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+     (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+     (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+     (dired-rainbow-define vc "#5fff00" ("git" "gitignore" "gitattributes" "gitmodules"))
+     (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+#+end_src
 
-  ;; eww does keyboard link following:
-  ;; https://github.com/m00natic/eww-lnum
-  ;; however need to turn off f and F's evil funtions in eww
-  (eval-after-load "eww"
-    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
-	    (define-key eww-mode-map "F" 'eww-lnum-universal)))
+* XML folding
+from https://acidwords.com/posts/2015-10-21-evil-mode-and-xml-folding.html
 
-  ;; try this for XML folding:
-  ;; from https://acidwords.com/posts/2015-10-21-evil-mode-and-xml-folding.html
-
+#+begin_src emacs-lisp
   (require 'hideshow)
   (require 'sgml-mode)
   (require 'nxml-mode)
@@ -461,26 +412,22 @@ except I have changed some colours
 		 nil))
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
 
-  ;; optional key bindings, easier than hs defaults
+  ;; optional key bindings, easier than his defaults
   (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
-  ;; from Sacha Chua
-  ;; https://sachachua.com/blog/2015/02/learn-take-notes-efficiently-org-mode/#unnumbered-3
-  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+#+END_SRC
 
-  ;; choose starting buffer
+* Choose starting buffer
+
+#+begin_src emacs-lisp
   '(initial-buffer-choice "~/repos/london/notes-to-self.org")
   (pop-to-buffer (find-file "~/repos/london/notes-to-self.org"))
-
   (put 'narrow-to-region 'disabled nil)
-
-  ;; currently getting errors but should not keep this long term
+#+END_SRC
+* Package check signature
+Currently getting errors but should not keep this long term
+#+begin_src emacs-lisp
   (setq package-check-signature nil)
-
-  ;; set eww to be default from within emacs (mostly for elfeed, I think)
-  ;; from https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything 
-  ;; but this is not working from within elfeed
-  (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 
 * Elfeed
@@ -500,6 +447,16 @@ except I have changed some colours
   (require 'expand-region)
 #+end_src
 * EWW
+** default
+set eww to be default from within emacs (mostly for elfeed, I think)
+from https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything 
+but this is not working from within elfeed
+
+#+begin_src emacs-lisp 
+(setq browse-url-browser-function 'eww-browse-url)
+#+end_src
+
+** bookmarks
 functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookmarks.html
 
 #+begin_src emacs-lisp 
@@ -519,6 +476,14 @@ functions from https://www.olivertaylor.net/notes/20210207_emacs-extending-bookm
   ;; disable Evil where it interferes with core functionality
   (mapc (lambda (mode)
 	  (evil-set-initial-state mode 'emacs)) '(eww-mode))
+#+end_src
+EWW does keyboard link following: https://github.com/m00natic/eww-lnum
+however need to turn off f and F's evil funtions in eww
+
+#+begin_src emacs-lisp
+  (eval-after-load "eww"
+    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
+	    (define-key eww-mode-map "F" 'eww-lnum-universal)))
 #+end_src
 
 * LaTeX
