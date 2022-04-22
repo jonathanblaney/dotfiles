@@ -486,6 +486,21 @@ however need to turn off f and F's evil funtions in eww
 	    (define-key eww-mode-map "F" 'eww-lnum-universal)))
 #+end_src
 
+* wgrep
+When a grep has been run you can edit and write back to many files:
+https://github.com/mhayashi1120/Emacs-wgrep
+
+#+begin_src emacs-lisp 
+(require 'wgrep)
+#+end_src
+
+In the grep window, c-c c-p to make the changes and then save them to the files with:
+: C-c C-e
+Or abandon with:
+: C-c C-u
+Exit mode with:
+: C-x C-k
+
 * LaTeX
 Macro to insert the LaTeX export tweaks below from Org files:
 #+begin_src emacs-lisp
