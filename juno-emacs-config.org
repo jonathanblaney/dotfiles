@@ -438,6 +438,10 @@ Currently getting errors but should not keep this long term
   (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
 #+end_src
 
+set the default download location for enclosures
+#+begin_src emacs-lisp
+(setq elfeed-enclosure-default-dir "~/pod/")
+#+end_src
 * PDF tools 
 #+begin_src emacs-lisp 
 (pdf-tools-install)
