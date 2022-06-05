@@ -24,7 +24,7 @@ These are heavily dependent on keychord mode.
 | q;    | go to last edit point     |
 | r;    | bookmark-jump)            |
 | s;    | save-buffer               |
-| v;    | dabbrev-expand)           |
+| v;    | hippie-expand)     |
 | w;    | other-window              |
 | z;    | expand region             |
 | F10   | unassiagned               |
@@ -277,7 +277,7 @@ However note that for me p pastes after the cursor and P before.
   (key-chord-define-global "g;" 'swiper)
   (key-chord-define-global "e;" 'evil-end-of-line)
   (key-chord-define-global "b;" 'evil-first-non-blank)
-  (key-chord-define-global "v;" 'dabbrev-expand)
+  (key-chord-define-global "v;" 'hippie-expand)
   (key-chord-define-global "w;" 'other-window)
   (key-chord-define-global "j;" 'dired-jump)
   (key-chord-define-global "c;" 'shell-command)
@@ -432,16 +432,48 @@ Currently getting errors but should not keep this long term
 
 * Elfeed
 #+begin_src emacs-lisp
-(load "~/.emacs.d/elfeed-feeds.el")
+    (load "~/.emacs.d/elfeed-feeds.el")
 
-  (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
-  (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
+      (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
+      (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
 #+end_src
 
 set the default download location for enclosures
 #+begin_src emacs-lisp
-(setq elfeed-enclosure-default-dir "~/pod/")
+  (setq elfeed-enclosure-default-dir "/home/jon/pod/")
+
+  #+end_src
+
+Set individual podcast download locations
+  
+#+begin_src emacs-lisp
+(defadvice elfeed-search-update (before word-mouth activate)
+  (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
+    (setq elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/")))
 #+end_src
+
+
+what I'd like to do is set the download location per tag, eg
+if tag = Rosen
+elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/"
+else
+setq...
+as above
+
+Can I customise this from Null Program:
+
+(defadvice elfeed-search-update (before nullprogram activate)
+  (let ((feed (elfeed-db-get-feed "https://nullprogram.com/feed/")))
+    (setf (elfeed-feed-title feed) "Seriously Handsome Programmer")))
+
+Some like like
+
+(defadvice elfeed-search-update (before word-mouth activate)
+  (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
+    (setq (elfeed-enclosure-default-dir) "/home/jon/pod/word-mouth")))
+
+
+    
 * PDF tools 
 #+begin_src emacs-lisp 
 (pdf-tools-install)
@@ -505,6 +537,17 @@ Or abandon with:
 Exit mode with:
 : C-x C-k
 
+* windmove
+use arrows to move between windows
+
+#+begin_src emacs-lisp 
+(when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings))	;
+#+end_src
+
+* hippie expand
+Trying this based on: http://www.masteringemacs.org/article/text-expansion-hippie-expand
+Note that I'm just changing the keyboard mapping for v; from dabbrev-expand to hippie-expand
 * LaTeX
 Macro to insert the LaTeX export tweaks below from Org files:
 #+begin_src emacs-lisp
