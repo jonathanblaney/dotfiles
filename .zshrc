@@ -7,6 +7,9 @@ export ZSH="/home/jon/.oh-my-zsh"
 # theme choice atm:
 ZSH_THEME="gallois"
 
+# my aliases
+alias bat="batcat"
+
 # Turn off system bell
 unsetopt BEEP
 # Turn off autocomplete beeps
@@ -53,7 +56,7 @@ HIST_STAMPS="dd.mm.yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git z)
 
 source $ZSH/oh-my-zsh.sh
 

@@ -2,7 +2,8 @@ My dot files for a few favourite programs. Apart from Emacs, these are mostly pr
 
 - Emacs
 - MPV
-- SQLite
 - Neovim
+- SQLite
 - Tridactyl
+- zathura
 - zsh
