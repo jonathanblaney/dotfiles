@@ -205,6 +205,13 @@ From Sacha Chua:  https://sachachua.com/blog/2015/02/learn-take-notes-efficientl
 #+begin_src emacs-lisp
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
 #+END_SRC
+** Show inline images
+Article here: https://www.bytedude.com/simple-inline-images-in-org-mode/
+#+begin_src emacs-lisp
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width nil)
+#+END_SRC
+
 * Recent files and backup
 
 #+begin_src emacs-lisp
@@ -440,37 +447,44 @@ Currently getting errors but should not keep this long term
 
 set the default download location for enclosures
 #+begin_src emacs-lisp
-  (setq elfeed-enclosure-default-dir "/home/jon/pod/")
-
-  #+end_src
-
-Set individual podcast download locations
-  
-#+begin_src emacs-lisp
-(defadvice elfeed-search-update (before word-mouth activate)
-  (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
-    (setq elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/")))
+(setq elfeed-enclosure-default-dir "/home/jon/pod/")
 #+end_src
 
+Trying to Set individual podcast download locations
+  
+  (defadvice elfeed-search-update (before word-mouth activate)
+    (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
+      (setq elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/")))
 
-what I'd like to do is set the download location per tag, eg
-if tag = Rosen
-elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/"
-else
-setq...
-as above
+this is downloading everything to the same because there is no if/else staement
+next try:
+(if (< 3 2)
+    (progn 8)
+  (progn 7))
+
+
+      (defadvice elfeed-search-update (before word-mouth activate)
+      (if
+       (feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss"))
+	  (setq elfeed-enclosure-default-dir "/home/jon/pod/word-mouth/")
+    (setq elfeed-enclosure-default-dir "/home/jon/pod/")
+    ))
+      ("http://www.bbc.co.uk/programmes/b078n25h/episodes/downloads.rss" podcast Service listening service)
+
+;; (cond ((> 3 4) (progn 3))
+;;       ((> 7 5) (progn 4))
+; ;      (t (progn 1)))
 
 Can I customise this from Null Program:
 
-(defadvice elfeed-search-update (before nullprogram activate)
-  (let ((feed (elfeed-db-get-feed "https://nullprogram.com/feed/")))
-    (setf (elfeed-feed-title feed) "Seriously Handsome Programmer")))
+; (defadvice elfeed-search-update (before nullprogram activate)
+;   (let ((feed (elfeed-db-get-feed "https://nullprogram.com/feed/")))
+;     (setf (elfeed-feed-title feed) "Seriously Handsome Programmer")))
 
-Some like like
 
-(defadvice elfeed-search-update (before word-mouth activate)
-  (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
-    (setq (elfeed-enclosure-default-dir) "/home/jon/pod/word-mouth")))
+; (defadvice elfeed-search-update (before word-mouth activate)
+;   (let ((feed (elfeed-db-get-feed "https://podcasts.files.bbci.co.uk/b006qtnz.rss")))
+;     (setq (elfeed-enclosure-default-dir) "/home/jon/pod/word-mouth")))
 
 
     
