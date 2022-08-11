@@ -189,7 +189,7 @@ Suggested by Alain Lafon's config.
       (shell . t)))
 
     (eval-after-load "org" '(require 'ox-odt nil t))
-
+(require 'ox-groff)
   (setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
   (global-prettify-symbols-mode t) ;; do I definitely want this? 
   (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
