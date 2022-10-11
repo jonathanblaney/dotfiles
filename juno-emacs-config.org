@@ -24,7 +24,9 @@ These are heavily dependent on keychord mode.
 | q;    | go to last edit point     |
 | r;    | bookmark-jump)            |
 | s;    | save-buffer               |
-| v;    | hippie-expand)     |
+| ud    | undo-fu-just-undo         |
+| u;    | undo-fu-just-redo         |
+| v;    | hippie-expand)            |
 | w;    | other-window              |
 | z;    | expand region             |
 | F10   | unassiagned               |
@@ -189,7 +191,7 @@ Suggested by Alain Lafon's config.
       (shell . t)))
 
     (eval-after-load "org" '(require 'ox-odt nil t))
-(require 'ox-groff)
+
   (setq org-src-fontify-natively t) ;; means fonts, not just colour in org src blocks?
   (global-prettify-symbols-mode t) ;; do I definitely want this? 
   (setq org-export-with-smart-quotes t) ;;don't know why this isn't default!
@@ -261,6 +263,14 @@ However note that for me p pastes after the cursor and P before.
 #+begin_src emacs-lisp
     (setq sentence-end-double-space nil)
 #+end_src
+** Undo in Evil
+Normal Emacs undo does not work in Evil.
+
+#+begin_src emacs-lisp
+(require 'undo-fu)
+  (setq evil-undo-system 'undo-fu)
+#+end_src
+
 * Key chord
 
 #+begin_src emacs-lisp
@@ -291,6 +301,8 @@ However note that for me p pastes after the cursor and P before.
   (key-chord-define-global "r;" 'bookmark-jump)    
   (key-chord-define-global "z;" 'er/expand-region)
   (key-chord-define-global "q;" 'goto-last-change)
+  (key-chord-define-global "ud" 'undo-fu-only-undo)
+  (key-chord-define-global "u;" 'undo-fu-only-redo)
   (global-set-key (kbd "<f5>") 'query-replace-regexp)
   (global-set-key (kbd "<f7>") 'other-window)
   (global-set-key [(f11)] 'toggle-truncate-lines)
