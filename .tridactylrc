@@ -23,6 +23,7 @@ bind gwt winopen https://traintimes.org.uk/
 
 " Autocmds
 autocmd DocStart https://www.fastmail.com mode ignore
+autocmd DocStart https://app.fastmail.com mode ignore
 autocmd DocLoad ^https://github.com/tridactyl/tridactyl/issues/new$ issue
 autocmd TriStart .* source_quiet
 
