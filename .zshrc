@@ -9,7 +9,12 @@ ZSH_THEME="gallois"
 
 # my aliases
 alias bat="batcat"
-
+alias python3="python"
+# aliases for remind
+alias rt="cd && rem -s && task"
+alias home="cd && remind -s repos/london/remind/main.rem"
+alias birthday="cd && remind -n repos/london/remind/birthdays.rem"
+alias cambs="cd && remind -s repos/london/remind/cambridge.rem"
 # Turn off system bell
 unsetopt BEEP
 # Turn off autocomplete beeps
