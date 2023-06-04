@@ -359,18 +359,12 @@ Normal Emacs undo does not work in Evil.
 #+begin_src emacs-lisp
   (setq initial-major-mode 'org-mode)
   (setq initial-scratch-message "
+Use ctrl+h ctrl+h for the full help menu
+  
   Use this for org export
   ,#+LaTeX_CLASS: jon
   ,#+OPTIONS: toc:nil
 
-  In Evil =g;= jumps to the last edit! except I have this for search in evil
-  In Evil =ctrl-o= and =ctrl-i= jump back and forward between previous positions, cross-buffer. Can turn the latter off with
-  =evil-jumps-cross-buffers nil= but actually it's a bit like switch buffer so could be handy
-  In evil =g i= opens insert mode where insert mode was last used
-I should learn how to set this to something else;q
-  =mx evil-ex-show-digraphs= shows the main chars and insert sequence
-  Jump to percent through buffer by typing, eg, =50%=
-  To indent lines nn to nn do =:nn,nn>= (very useful for Python)
   ----------------")
 #+end_src
 
@@ -437,11 +431,11 @@ from https://acidwords.com/posts/2015-10-21-evil-mode-and-xml-folding.html
 #+END_SRC
 
 * Choose starting buffer
-
+I want to go back to using the scratch buffer
 #+begin_src emacs-lisp
-  '(initial-buffer-choice "~/repos/london/notes-to-self.org")
-  (pop-to-buffer (find-file "~/repos/london/notes-to-self.org"))
-  (put 'narrow-to-region 'disabled nil)
+;;  '(initial-buffer-choice "~/repos/london/notes-to-self.org")
+;;  (pop-to-buffer (find-file "~/repos/london/notes-to-self.org"))
+;;  (put 'narrow-to-region 'disabled nil)
 #+END_SRC
 * Package check signature
 Currently getting errors but should not keep this long term
