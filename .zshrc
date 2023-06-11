@@ -9,12 +9,19 @@ ZSH_THEME="gallois"
 
 # my aliases
 alias bat="batcat"
-alias python3="python"
+alias python="python3"
+alias gdaily='git commit -a -m "daily update"'
 # aliases for remind
 alias rt="cd && rem -s && task"
 alias home="cd && remind -s repos/london/remind/main.rem"
-alias birthday="cd && remind -n repos/london/remind/birthdays.rem"
+alias home3="cd && remind -s3 repos/london/remind/main.rem"
+alias home6="cd && remind -s6 repos/london/remind/main.rem"
+alias homen="cd && remind -n repos/london/remind/main.rem | head -n 16"
+alias birthday="cd && remind -s12 repos/london/remind/birthdays.rem"
 alias cambs="cd && remind -s repos/london/remind/cambridge.rem"
+alias cam="cd && remind -s repos/london/remind/cambridge.rem"
+alias cambs3="cd && remind -s3 repos/london/remind/cambridge.rem"
+alias cam3="cd && remind -s3 repos/london/remind/cambridge.rem"
 # Turn off system bell
 unsetopt BEEP
 # Turn off autocomplete beeps
