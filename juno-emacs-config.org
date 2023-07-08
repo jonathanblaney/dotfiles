@@ -1,4 +1,5 @@
 #+STARTUP: overview
+#+STARTUP: indent
 #+TITLE: Emacs config for Linux
 
 Attempt to sort out and make literate my main emacs config file, which was previously messy and confusing. A superior literate config, which inspired this one, is [[https://github.com/munen/emacs.d][Alain Lafon's]]. 
@@ -225,12 +226,19 @@ Article here: https://www.bytedude.com/simple-inline-images-in-org-mode/
   (global-set-key [(meta f12)] 'recentf-open-files)
 #+end_src
 
-** Set backup directory
+** set backup directory
 #+begin_src emacs-lisp
     (setq backup-directory-alist `(("." . "~/.saves")))
 #+end_src
 
 
+** savehist mode
+Prot says that you can do this but I'm not sure I want it:
+;; (setq savehist-additional-variables '(register-alist, kill-ring))
+
+#+begin_src emacs-lisp
+  (savehist-mode 1)
+#+end_src
 * Evil
 ** Broken tab fix
 Tab conflict between Org and Evil. The following must be set before ~(require 'evil)~
@@ -357,15 +365,17 @@ Normal Emacs undo does not work in Evil.
 * Scratch buffer
 
 #+begin_src emacs-lisp
-  (setq initial-major-mode 'org-mode)
-  (setq initial-scratch-message "
-Use ctrl+h ctrl+h for the full help menu
-  
-  Use this for org export
-  ,#+LaTeX_CLASS: jon
-  ,#+OPTIONS: toc:nil
+    (setq initial-major-mode 'org-mode)
+    (setq initial-scratch-message "
+  Use ctrl+h ctrl+h for the full help menu
 
-  ----------------")
+    Use this for org export
+    ,#+LaTeX_CLASS: jon
+    ,#+OPTIONS: toc:nil
+
+  Useful movement commands: H, L, M, zt, zb (latter variants of zz)
+
+    ----------------")
 #+end_src
 
 * Dired 
@@ -455,6 +465,45 @@ set the default download location for enclosures
 #+begin_src emacs-lisp
 (setq elfeed-enclosure-default-dir "/home/jon/pod/")
 #+end_src
+
+OK this crazy stuff is from ChatGPT. I think there might be some sense in there
+but some things are obviously wrong like I'm not using use-package:
+
+To customize the download location for podcast files in Elfeed, you can modify the `elfeed-show-enclosure-default-dir` variable in your Emacs configuration file (typically `~/.emacs.d/init.el` or `~/.emacs`). Here's an example of the Elisp code you can use: 
+
+```elisp
+(setq elfeed-show-enclosure-default-dir "~/path/to/podcast/folder")
+```
+
+Replace `"~/path/to/podcast/folder"` with the desired directory path where you want to save the podcast files. Make sure to provide the absolute path for the folder. This code sets the default download directory for podcast enclosures in Elfeed.
+
+You can add this code snippet to your Emacs configuration file and then restart Emacs or evaluate the code using `eval-region` or `eval-buffer` command for the changes to take effect.
+
+Once you've set the `elfeed-show-enclosure-default-dir`, when you press 'd' on the keyboard to download a podcast enclosure in Elfeed, it will be saved in the specified directory.
+
+Remember to customize the directory for each podcast feed individually by updating the `elfeed-show-enclosure-default-dir` variable accordingly. You can set different paths for different podcasts based on your preferences.
+
+Note: If you are using `use-package` to manage your Emacs packages, you can integrate the customization code within the `use-package` declaration for Elfeed to ensure it is loaded correctly.
+
+
+---
+
+(use-package elfeed 
+  :config
+  (setq elfeed-show-enclosure-default-dir
+        (lambda (url _)
+          (cond
+           ;; Podcast 1
+           ((string-match-p "podcast1\\.com" url)
+            "~/path/to/podcast1/folder")
+           ;; Podcast 2
+           ((string-match-p "podcast2\\.com" url)
+            "~/path/to/podcast2/folder")
+           ;; Default folder for other podcasts
+           (t "~/path/to/default/folder")))))
+
+
+Previous attempts by me:	   
 
 Trying to Set individual podcast download locations
   
@@ -568,6 +617,10 @@ use arrows to move between windows
 * hippie expand
 Trying this based on: http://www.masteringemacs.org/article/text-expansion-hippie-expand
 Note that I'm just changing the keyboard mapping for v; from dabbrev-expand to hippie-expand
+* bookmarks
+I do have some bookmarks.
+Note that they're not saved until Emacs exits.
+However you can run the function bookmark-save any time.
 * LaTeX
 Macro to insert the LaTeX export tweaks below from Org files:
 #+begin_src emacs-lisp

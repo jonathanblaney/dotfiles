@@ -13,6 +13,8 @@ alias python="python3"
 alias gdaily='git commit -a -m "daily update"'
 # aliases for remind
 alias rt="cd && rem -s && task"
+# get reminder from all files by specifying the directory only:
+alias rall="cd && remind -s3 repos/london/remind/"
 alias home="cd && remind -s repos/london/remind/main.rem"
 alias home3="cd && remind -s3 repos/london/remind/main.rem"
 alias home6="cd && remind -s6 repos/london/remind/main.rem"
