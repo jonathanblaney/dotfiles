@@ -25,12 +25,12 @@ These are heavily dependent on keychord mode.
 | q;    | go to last edit point     |
 | r;    | bookmark-jump)            |
 | s;    | save-buffer               |
-| ud    | undo-fu-just-undo         |
+| ux    | undo-fu-just-undo         |
 | u;    | undo-fu-just-redo         |
 | v;    | hippie-expand)            |
 | w;    | other-window              |
 | z;    | expand region             |
-| F10   | unassiagned               |
+| F10   | unassigned                |
 | F11   | toggle linewrap           |
 | F5    | regex search/replace      |
 | F6    | M-x                       |
@@ -309,7 +309,7 @@ Normal Emacs undo does not work in Evil.
   (key-chord-define-global "r;" 'bookmark-jump)    
   (key-chord-define-global "z;" 'er/expand-region)
   (key-chord-define-global "q;" 'goto-last-change)
-  (key-chord-define-global "ud" 'undo-fu-only-undo)
+  (key-chord-define-global "ux" 'undo-fu-only-undo)
   (key-chord-define-global "u;" 'undo-fu-only-redo)
   (global-set-key (kbd "<f5>") 'query-replace-regexp)
   (global-set-key (kbd "<f7>") 'other-window)
