@@ -448,10 +448,12 @@ I want to go back to using the scratch buffer
 ;;  (put 'narrow-to-region 'disabled nil)
 #+END_SRC
 * Package check signature
-Currently getting errors but should not keep this long term
-#+begin_src emacs-lisp
-  (setq package-check-signature nil)
-#+END_SRC
+Currently getting errors but should not keep this long term.
+Taking this out August 2023
+
+;;#+begin_src emacs-lisp
+;;  (setq package-check-signature nil)
+;;#+END_SRC
 
 * Elfeed
 #+begin_src emacs-lisp
@@ -591,6 +593,19 @@ however need to turn off f and F's evil funtions in eww
 	    (define-key eww-mode-map "F" 'eww-lnum-universal)))
 #+end_src
 
+* eshell
+Video on eshell https://www.youtube.com/watch?v=QEdARsXe9FA
+
+Always list files after cd
+#+begin_src emacs-lisp
+(setq eshell-list-files-after-cd t)
+#+end_src
+
+Set default switches for ls
+
+#+begin_src emacs-lisp
+(setq eshell-ls-initial-args '("-alh"))
+#+end_src
 * wgrep
 When a grep has been run you can edit and write back to many files:
 https://github.com/mhayashi1120/Emacs-wgrep
@@ -617,10 +632,28 @@ use arrows to move between windows
 * hippie expand
 Trying this based on: http://www.masteringemacs.org/article/text-expansion-hippie-expand
 Note that I'm just changing the keyboard mapping for v; from dabbrev-expand to hippie-expand
+Emacs Elements video on this here: https://www.youtube.com/watch?v=qTlBLGGHqT0
+#+begin_src emacs-lisp
+  (setq hippie-expand-verbose t)
+#+end_src
+
+I am leaving the defaults for now but you can set the order in which hippie expand works like so:
+(setq hippie-expand-try-functions-list
+'(try-expand-dabbrev
+try-expand-line
+try-complete-filename))
+etc
 * bookmarks
 I do have some bookmarks.
 Note that they're not saved until Emacs exits.
 However you can run the function bookmark-save any time.
+* ediff
+This is taken from Prot's video and config:
+https://protesilaos.com/codelog/2023-11-17-emacs-ediff-basics/
+#+begin_src emacs-lisp
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain) ;; makes the diff control window more visible
+#+end_src
 * LaTeX
 Macro to insert the LaTeX export tweaks below from Org files:
 #+begin_src emacs-lisp
