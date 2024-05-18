@@ -40,7 +40,7 @@ alias birthday="cd && remind -s12 repos/london/remind/birthdays.rem"
 alias cambs="cd && remind -n repos/london/remind/cambridge.rem"
 alias cam="cd && remind -n repos/london/remind/cambridge.rem"
 # play music aliases
-alias playlist="cd && grep playlist .zshrc | grep -v zshrc | sed 's/^alias//g' | sed 's/=.\+playlist=/ /g' |sed 's/.txt.//g | column -t -H3" 
+alias playlist="cd && grep playlist .zshrc | grep -v zshrc | sed 's/^alias//g' | sed 's/=.\+playlist=/ /g' |sed 's/.txt.//g' | column -t -H3" 
 alias busoni="cd ~/Music/playlists && mpv -playlist=perahia-busoni.txt" # bach
 alias goldbergs="cd ~/Music/playlists && mpv -playlist=goldbergs-perahia.txt" # bach
 alias anders="cd ~/Music/playlists && mpv -playlist=anderszewski.txt" # bach

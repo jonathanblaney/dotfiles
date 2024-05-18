@@ -1,3 +1,5 @@
 INCLUDE repos/london/remind/main.rem
 INCLUDE repos/london/remind/cambridge.rem
 INCLUDE repos/london/remind/birthdays.rem
+INCLUDE repos/london/remind/jisc.rem
+
