@@ -331,26 +331,26 @@ Normal Emacs undo does not work in Evil.
 
 #+begin_src emacs-lisp
 
-       ;; allow dired-jump to work automatically
-      (require 'dired-x)
+         ;; allow dired-jump to work automatically
+        (require 'dired-x)
+         ;; let Git track renames by wdired
+        (setq dired-vc-rename-file t)
+        (global-visual-line-mode 1)
 
+        ;; unset evil-record-macro
+        (define-key evil-normal-state-map "q" 'delete-other-windows)
 
-      (global-visual-line-mode 1)
+        ;; peep dired set-up for evil
+        ;; taken from https://github.com/asok/peep-dired
+        (evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
+                                                     (kbd "C-<SPC>") 'peep-dired-scroll-page-up
+                                                     (kbd "<backspace>") 'peep-dired-scroll-page-up
+                                                     (kbd "j") 'peep-dired-next-file
+                                                     (kbd "k") 'peep-dired-prev-file)
+        (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 
-      ;; unset evil-record-macro
-      (define-key evil-normal-state-map "q" 'delete-other-windows)
-
-      ;; peep dired set-up for evil
-      ;; taken from https://github.com/asok/peep-dired
-      (evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
-						   (kbd "C-<SPC>") 'peep-dired-scroll-page-up
-						   (kbd "<backspace>") 'peep-dired-scroll-page-up
-						   (kbd "j") 'peep-dired-next-file
-						   (kbd "k") 'peep-dired-prev-file)
-      (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
-
-  (put 'dired-find-alternate-file 'disabled nil)
-  (setq-default dired-listing-switches "-alh")
+    (put 'dired-find-alternate-file 'disabled nil)
+    (setq-default dired-listing-switches "-alh")
 
 #+end_src
 
