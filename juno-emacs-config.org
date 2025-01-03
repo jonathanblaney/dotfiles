@@ -16,6 +16,7 @@ These are heavily dependent on keychord mode.
 | f;    | find file                 |
 | f     | avy-goto-char-timer       |
 | g;    | swiper                    |
+| i;    | elfeed toggle images      |
 | j;    | dired-jump)               |
 | jd    | evil-scroll-up)           |
 | kb    | kill-this-buffer)         |
@@ -54,15 +55,15 @@ These are heavily dependent on keychord mode.
       '(cua-mode t nil (cua-base))
       ;;(custom-enabled-themes '(solarized-dark))
       ;; disabled safe themes:
-          "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3"
-          "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879"
+;;          "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3
+  ;;        "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879
       ;; 
       '(custom-safe-themes
         '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
       '(dired-hide-details-hide-information-lines t)
       '(inhibit-startup-screen t)
       '(package-selected-packages
-        '(swiper rainbow-mode pdf-tools js2-mode web-mode beacon ag elfeed helpful dired-narrow cider expand-region eww-lnum dired-rainbow idle-highlight-mode avy htmlize evil-collection which-key neotree w3m counsel peep-dired ox-pandoc auctex volatile-highlights smex markdown-mode magit key-chord evil define-word ace-jump-mode))
+        '(swiper rainbow-mode pdf-tools js2-mode modus-themes web-mode beacon ag elfeed helpful dired-narrow cider expand-region eww-lnum dired-rainbow idle-highlight-mode avy htmlize evil-collection which-key neotree w3m counsel peep-dired ox-pandoc auctex volatile-highlights smex markdown-mode magit key-chord evil define-word ace-jump-mode))
       '(tool-bar-mode nil))
      (setq suggest-key-bindings t)
      (when (> emacs-major-version 23)				   
@@ -84,6 +85,11 @@ These are heavily dependent on keychord mode.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+#+end_src
+
+Use modus vivendi from modus-themes by prot
+#+begin_src emacs-lisp
+(load-theme 'modus-vivendi)
 #+end_src
 
 ** Enter 'y' or 'n'
@@ -294,31 +300,32 @@ Normal Emacs undo does not work in Evil.
 * Set keyboard shortcuts
 ** Global keys
 #+begin_src emacs-lisp
-  (key-chord-define-global "f;" 'find-file)
-  (key-chord-define-global "jd" 'evil-scroll-up)       
-  (key-chord-define-global "kd" 'evil-scroll-down)               
-  (key-chord-define-global "mx" 'smex)
-  (key-chord-define-global "cx" 'Control-X-prefix)               
-  (key-chord-define-global "sb" 'ivy-switch-buffer) 
-  (key-chord-define-global "a;" 'keyboard-escape-quit)
-  (key-chord-define-global "kb" 'kill-this-buffer)	   
-  (key-chord-define-global "s;" 'save-buffer)
-  (key-chord-define-global "g;" 'swiper)
-  (key-chord-define-global "e;" 'evil-end-of-line)
-  (key-chord-define-global "b;" 'evil-first-non-blank)
-  (key-chord-define-global "v;" 'hippie-expand)
-  (key-chord-define-global "w;" 'other-window)
-  (key-chord-define-global "j;" 'dired-jump)
-  (key-chord-define-global "c;" 'shell-command)
-  (key-chord-define-global "r;" 'bookmark-jump)    
-  (key-chord-define-global "z;" 'er/expand-region)
-  (key-chord-define-global "q;" 'goto-last-change)
-  (key-chord-define-global "ux" 'undo-fu-only-undo)
-  (key-chord-define-global "u;" 'undo-fu-only-redo)
-  (global-set-key (kbd "<f5>") 'query-replace-regexp)
-  (global-set-key (kbd "<f7>") 'other-window)
-  (global-set-key [(f11)] 'toggle-truncate-lines)
-  (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
+    (key-chord-define-global "f;" 'find-file)
+    (key-chord-define-global "jd" 'evil-scroll-up)       
+    (key-chord-define-global "kd" 'evil-scroll-down)               
+    (key-chord-define-global "mx" 'smex)
+    (key-chord-define-global "cx" 'Control-X-prefix)               
+    (key-chord-define-global "sb" 'ivy-switch-buffer) 
+    (key-chord-define-global "a;" 'keyboard-escape-quit)
+    (key-chord-define-global "kb" 'kill-this-buffer)	   
+    (key-chord-define-global "s;" 'save-buffer)
+    (key-chord-define-global "g;" 'swiper)
+    (key-chord-define-global "e;" 'evil-end-of-line)
+    (key-chord-define-global "b;" 'evil-first-non-blank)
+    (key-chord-define-global "v;" 'hippie-expand)
+    (key-chord-define-global "w;" 'other-window)
+    (key-chord-define-global "j;" 'dired-jump)
+    (key-chord-define-global "c;" 'shell-command)
+    (key-chord-define-global "r;" 'bookmark-jump)    
+    (key-chord-define-global "z;" 'er/expand-region)
+    (key-chord-define-global "q;" 'goto-last-change)
+    (key-chord-define-global "ux" 'undo-fu-only-undo)
+    (key-chord-define-global "u;" 'undo-fu-only-redo)
+    (key-chord-define-global "i;" 'elfeed-show-hide-images)
+    (global-set-key (kbd "<f5>") 'query-replace-regexp)
+    (global-set-key (kbd "<f7>") 'other-window)
+    (global-set-key [(f11)] 'toggle-truncate-lines)
+    (global-set-key (kbd "<f9>") 'goto-last-change-reverse)
 #+end_src
 * Smex
 
@@ -470,6 +477,14 @@ Taking this out August 2023
 set the default download location for enclosures
 #+begin_src emacs-lisp
 (setq elfeed-enclosure-default-dir "/home/jon/pod/")
+#+end_src
+
+    toggle images on and off, from Wellons GH reply: https://github.com/skeeto/elfeed/issues/31
+#+begin_src emacs-lisp
+  (defun elfeed-show-hide-images ()
+    (interactive)
+    (let ((shr-inhibit-images t))
+      (elfeed-show-refresh)))
 #+end_src
 
 OK this crazy stuff is from ChatGPT. I think there might be some sense in there
