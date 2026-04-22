@@ -25,29 +25,44 @@ setopt HIST_IGNORE_DUPS      # Do not record an event that was just recorded aga
 setopt HIST_IGNORE_ALL_DUPS  # Delete an old recorded event if a new event is a duplicate.
 setopt HIST_IGNORE_SPACE     # Do not record an event starting with a space.
 setopt HIST_VERIFY           # Do not execute immediately upon history expansion.
+# trying to set nvim as my default editor
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 # my aliases
 alias where="dirs -v" # can then do cd ~n with the appropriate number
 alias books="cd ~/repos/bitsandbobs/website/books-db && sqlite3 books.db"
 alias bat="batcat"
+alias clip="xclip --selection clipboard" # should work to paste anywhere
 alias delay="ls -t ~/Downloads/delay/*.pdf | head -n 1 | sed 's#/home/jon/Downloads/delay/[A-Z-]\+[0-9-]\+##g' | sed 's/\.pdf//g' | xclip -selection clipboard"
+alias elfeed="cd ~/.emacs.d && nvim elfeed-feeds.el"
 alias fd="fdfind"
+alias gdaily='git commit -a -m "daily update"'
 alias latest="ls -t | head -n 1 | sed 's/^/\"/g' | sed 's/$/\"/g' | xargs xdg-open" # open most recent file in dir with default app
 alias micro="nvim ~/repos/london/remind/micro.rem"
 alias main="nvim ~/repos/london/remind/main.rem"
+alias bro="nvim -c 'bro ol'"
+alias broo="nvim -c \"'0\""
 alias mycss="pandoc -c ~/mycss.css -s"
 alias python="python3"
-alias read-convert="pandoc --toc -s reading-notes.md -o reading.html"
+alias reading="nvim + ~/repos/london/readingnotes.md"
+alias recent="ls -t | head -n5"
+#aliases for pandoc
+alias read-convert="pandoc --toc -s readingnotes.md -o reading.html"
 alias tech-convert="pandoc --toc -s tech.md -o tech.html"
-alias gdaily='git commit -a -m "daily update"'
 # aliases for remind
 alias rt="cd && rem -n && task"
+# aliases for w3m
+alias web="cd && w3m homew3m.html"
+alias brutal="w3m brutalist.report/topic/tech"
 # get reminder from all files by specifying the directory only:
 # can I ignore repetitive tasks by grepping for dates?
 alias rall="cd && remind -s6 repos/london/remind/ | sed 's/ today//g'"
-alias month="cd && remind -s1 repos/london/remind/ | sed 's/ today//g'"
+alias month="cd && remind -s1 repos/london/remind/ | cut -d\" \" -f1-3,6-"
+alias week="cd && rem \*7"
 alias home="cd && remind -n repos/london/remind/main.rem"
 alias homen="cd && remind -n repos/london/remind/main.rem | head -n 16"
 alias birthday="cd && remind -s12 repos/london/remind/birthdays.rem"
+alias cal1="cd && remind -cu1 repos/london/remind/"
 alias cambs="cd && remind -n repos/london/remind/cambridge.rem"
 alias cam="cd && remind -n repos/london/remind/cambridge.rem"
 alias event="cd && remind -n repos/london/remind/events.rem"
@@ -58,10 +73,12 @@ alias comical="cd ~/Music/playlists && mpv -playlist=well-tempered-clavier.txt" 
 alias goldbergs="cd ~/Music/playlists && mpv -playlist=goldbergs-perahia.txt" # bach
 alias inventions="cd ~/Music/playlists && mpv -playlist=inventions-hewitt.txt" # bach
 alias Pip="cd ~/Music/playlists && mpv -playlist=art-of-fugue.txt" # bach
+alias bach-cello="cd ~/Music/playlists && mpv -playlist=bach-cello.txt" # bach
 alias anders="cd ~/Music/playlists && mpv -playlist=anderszewski.txt" # bach-beethoven-webern
 alias beethoven106="cd ~/Music/playlists && mpv -playlist=beethoven106.txt" # beethoven
 alias beethoven109="cd ~/Music/playlists && mpv -playlist=beethoven109.txt" # beethoven
 alias beethoven110="cd ~/Music/playlists && mpv -playlist=beethoven110.txt" # beethoven
+alias beethoven111="cd ~/Music/playlists && mpv -playlist=beethoven111.txt" # beethoven
 alias beethoven131="cd ~/Music/playlists && mpv -playlist=beethoven131.txt" # beethoven
 alias beethoven135="cd ~/Music/playlists && mpv -playlist=beethoven135.txt" # beethoven
 alias brauss="cd ~/Music/playlists && mpv -playlist=brauss.txt" # beethoven-prokofiev-chopin
@@ -69,11 +86,12 @@ alias etudes="cd ~/Music/playlists && mpv -playlist=chopin-etudes.txt" # chopin
 alias nocturnes="cd ~/Music/playlists && mpv -playlist=pires-nocturnes.txt" # chopin
 alias love="cd ~/Music/playlists && mpv -playlist=coltrane.txt" # coltrane 
 alias ludus="cd ~/Music/playlists && mpv -playlist=hindemith-hartmann.txt" # hindemith
+alias distingue="cd ~/Music/playlists && mpv -playlist=distingue.txt" # hindemith
 alias impromptus="cd ~/Music/playlists && mpv -playlist=schubert-impromptus.txt" # schubert
 alias carneval="cd ~/Music/playlists && mpv -playlist=carneval-kreisleriana.txt" # schumann 
 alias shospf="cd ~/Music/playlists && mpv -playlist=shostakovich-preludes-and-fugues.txt" # shostakovich
 alias shosqt="cd ~/Music/playlists && mpv -playlist=shostakovich-string-quartets.txt" # shostakovich
-alias mule="cd ~/Music/playlists && mpv -playlist=mule.txt" # tom-waits
+alias mule="cd ~/Music/playlists && mpv -playlist=mule.txt" # waits
 
 # bins alias
 alias bins="python3 ~/repos/bitsandbobs/website/next_tuesday.py"
@@ -128,6 +146,6 @@ HIST_STAMPS="dd.mm.yyyy"
 plugins=(git z)
 
 source $ZSH/oh-my-zsh.sh
-
+export PATH='/home/jon/.duckdb/cli/latest':$PATH
 
 
